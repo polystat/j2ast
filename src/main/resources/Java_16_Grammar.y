@@ -171,10 +171,12 @@
 %code imports { import tree.Expression.Primary.*; }
 %code imports { import tree.Statement.*; }
 %code imports { import tree.Type.*; }
+%code imports { import java.util.*; }
 %code imports { @SuppressWarnings("PMD") }
 
 %code {
     public CompilationUnit ast;
+    public HashMap<String,Declaration> classes = new HashMap<String,Declaration>();
 }
 
 // Nonterminal types
@@ -386,8 +388,8 @@ TopLevelComponentSeq
     ;
 
 TopLevelComponent
-    : ClassDeclaration     { $$ = new TopLevelComponent($1); }
-    | InterfaceDeclaration { $$ = new TopLevelComponent($1); }
+    : ClassDeclaration     { classes.put($1.name,$1); $$ = new TopLevelComponent($1); }
+    | InterfaceDeclaration { classes.put($1.name,$1); $$ = new TopLevelComponent($1); }
     ;
 
 /////// Java modules are not supported (yet)

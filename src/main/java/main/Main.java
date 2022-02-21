@@ -4,10 +4,12 @@ import lexer.Scanner;
 import org.apache.commons.cli.*;
 import parser.JavaParser;
 import tree.Entity;
+import tree.Declaration.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
@@ -67,6 +69,13 @@ public class Main {
             if (parser.ast != null) {
                 if (Entity.debug) {
                     parser.ast.report(0);
+                    System.out.print("CLASSES: ");
+                    for (Map.Entry<String,Declaration> e : parser.classes.entrySet())
+                    {
+                        System.out.print(e.getKey());
+                        System.out.print(' ');
+                    }
+                    System.out.println();
                 }
                 if (Entity.syntaxOnly) {
                     return;
