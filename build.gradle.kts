@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "org.polystat"
-version = "0.0.1"
+version = "0.0.2"
 
 
 val mvnUsername: String? by project
@@ -29,6 +29,14 @@ val javaParserFilePath = "src/main/java/parser/JavaParser.java"
 // MD5 of the latest generated grammar file is stored here
 val latestGrammarMD5FilePath = "out/latestGrammarMD5"
 
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_15
+    targetCompatibility = JavaVersion.VERSION_15
+
+    withJavadocJar()
+    withSourcesJar()
+}
 
 repositories {
     mavenCentral()
@@ -64,7 +72,7 @@ publishing {
         create<MavenPublication>("mavenJava") {
             groupId = "org.polystat"
             artifactId = "j2ast"
-            version = project.version as String
+            version = listOfNotNull(mvnPublicationVersion, project.version as String).first()
             from(components["java"])
             pom {
                 name.set("j2ast")
