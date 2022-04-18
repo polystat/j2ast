@@ -6,7 +6,8 @@ import lexer.Token;
 // The root class of the whole hierarchy of classes
 // representing various Java constructs.
 
-public class Entity {
+public class Entity
+{
     public static final int shift = 4;
     public static boolean debug = false;
     public static boolean syntaxOnly = false;
@@ -61,6 +62,13 @@ public class Entity {
 
     public void report(int sh) {
 
+    }
+
+    public static void reportParsing(String title)
+    {
+        if ( !debug ) return;
+        for ( int i=1; i<=20; i++ ) System.out.print(" ");
+        System.out.println(title);
     }
 
 }

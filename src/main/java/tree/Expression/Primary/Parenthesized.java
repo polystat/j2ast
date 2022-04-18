@@ -1,12 +1,14 @@
 package tree.Expression.Primary;
 
+import tree.Entity;
 import tree.Expression.Expression;
 
 // Primary
 //    : ...
 //    | LPAREN Expression RPAREN
 //    | ...
-public class Parenthesized extends Primary {
+public class Parenthesized extends Primary
+{
     // Structure
     public Expression expression;
 
@@ -16,6 +18,7 @@ public class Parenthesized extends Primary {
         if (this.expression != null) {
             this.expression.parent = this;
         }
+        Entity.reportParsing("PARENTHESIZED");
     }
 
     // Reporting

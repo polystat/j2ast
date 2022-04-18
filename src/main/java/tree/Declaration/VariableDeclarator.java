@@ -13,14 +13,16 @@ import tree.Initializer;
 //    | IDENTIFIER Dims
 //    | IDENTIFIER Dims EQUAL ArrayInitializer
 //    ;
-public class VariableDeclarator extends Entity {
+public class VariableDeclarator extends Entity
+{
     // Structure
     public String name;
     public Dims dims;
     public Initializer initializer;
 
     // Creation
-    public VariableDeclarator(Token id, Dims dims, Initializer init) {
+    public VariableDeclarator(Token id, Dims dims, Initializer init)
+    {
         this.name = id.image;
         this.dims = dims;
         this.initializer = init;
@@ -31,10 +33,7 @@ public class VariableDeclarator extends Entity {
         if (this.initializer != null) {
             this.initializer.parent = this;
         }
-
-        if (debug) {
-            System.out.println("Variable declarator with " + id.image + " accepted");
-        }
+        Entity.reportParsing("VARIABLE DECLARATOR with " + id.image );
     }
 
     // Reporting

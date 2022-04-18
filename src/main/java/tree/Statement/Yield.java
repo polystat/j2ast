@@ -9,18 +9,21 @@ import tree.Expression.Expression;
 //    | YIELD Expression SEMICOLON      // YieldStatement
 //    | ...
 //    ;
-public class Yield extends Statement {
+public class Yield extends Statement
+{
     // Structure
-    // public ArrayList<String> labels;
+ // public ArrayList<String> labels;
     public Expression expression;
 
     // Creation
-    public Yield(ArrayList<String> ls, Expression expr) {
+    public Yield(ArrayList<String> ls, Expression expr)
+    {
         super(ls);
         this.expression = expr;
         if (this.expression != null) {
             this.expression.parent = this;
         }
+        Entity.reportParsing("YIELD");
     }
 
     // Reporting

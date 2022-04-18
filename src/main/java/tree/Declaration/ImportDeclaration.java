@@ -12,7 +12,8 @@ import tree.Entity;
 //    : // empty
 //    | STATIC
 //    ;
-public class ImportDeclaration extends Entity {
+public class ImportDeclaration extends Entity
+{
     // Structure
     public boolean signStatic;
     public CompoundName compoundName;
@@ -27,6 +28,7 @@ public class ImportDeclaration extends Entity {
         if (this.compoundName != null) {
             this.compoundName.parent = this;
         }
+        Entity.reportParsing("IMPORT DECLARATION");
     }
 
     // Reporting

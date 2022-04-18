@@ -12,7 +12,8 @@ import tree.Entity;
 //    :                    Expression
 //    | ArgumentList COMMA Expression
 //    ;
-public class ArgumentList extends Entity {
+public class ArgumentList extends Entity
+{
     // Structure
     public ArrayList<Expression> arguments;
 

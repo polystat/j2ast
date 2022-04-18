@@ -25,6 +25,7 @@ public class ConstructorBody extends Entity {
         if (this.block != null) {
             this.block.parent = this;
         }
+        Entity.reportParsing("CONSTRUCTOR BODY");
     }
 
     // Reporting

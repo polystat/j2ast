@@ -18,20 +18,23 @@ import tree.Type.Type;
 //      |                THIS         <<<========
 //      | IDENTIFIER DOT THIS         <<<========
 //      ;
-public class ReceiverDeclaration extends ParameterDeclaration {
+public class ReceiverDeclaration extends ParameterDeclaration
+{
     // Structure
     public Annotations annotations;
-    // public Type type;
-    // public String name;
+ // public Type type;
+ // public String name;
 
     // Creation
-    public ReceiverDeclaration(Annotations anns, Type t, String n) {
+    public ReceiverDeclaration(Annotations anns, Type t, String n)
+    {
         super(null, t, n, null, false, null);
         this.annotations = anns;
 
         if (this.annotations != null) {
             this.annotations.parent = this;
         }
+        Entity.reportParsing("RECEIVER DECLARATION");
     }
 
     // Reporting

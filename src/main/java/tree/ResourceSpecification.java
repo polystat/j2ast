@@ -14,5 +14,6 @@ package tree;
 //    : LocalVariableDeclaration
 //    | FieldAccess  // VariableAccess? - doesn't exist in the grammar?
 //    ;
-public class ResourceSpecification extends Entity {
+public class ResourceSpecification extends Entity
+{
 }

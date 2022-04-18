@@ -10,7 +10,8 @@ import tree.Entity;
 //    : IDENTIFIER LPAREN                                          RPAREN DimsOpt
 //    | IDENTIFIER LPAREN FormalParameterList /*FormalParameters*/ RPAREN DimsOpt
 //    ;
-public class MethodDeclarator extends Entity {
+public class MethodDeclarator extends Entity
+{
     // Structure
     public String name;
     public ParameterDeclarations parameters;
@@ -28,6 +29,7 @@ public class MethodDeclarator extends Entity {
         if (this.dims != null) {
             this.dims.parent = this;
         }
+        Entity.reportParsing("METHOD DECLARATOR");
     }
 
     // Reporting

@@ -53,7 +53,8 @@ import tree.Entity;
 //    | MethodInvocation
 //    | ClassInstanceCreationExpression
 //    ;
-public class Statement extends Entity {
+public class Statement extends Entity
+{
     // Structure
     public ArrayList<String> labels;
 
@@ -62,7 +63,8 @@ public class Statement extends Entity {
         this.labels = ls;
     }
 
-    public Statement addLabel(Token label) {
+    public Statement addLabel(Token label)
+    {
         if (labels == null) {
             labels = new ArrayList<>();
         }

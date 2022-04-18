@@ -1,11 +1,13 @@
 class Example
 {
+    private double x = 12.34;
     public int m1 = 5;
     public T m2;
     private static P1.P2.T m3;
 
     void message()
     {
+        double x = 12.34;
         а += 1;
         static int z;
         var f = 1;

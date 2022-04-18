@@ -10,15 +10,19 @@ import tree.Entity;
 //    | BREAK IDENTIFIER SEMICOLON             // BreakStatement
 //    | ...
 //    ;
-public class Break extends Statement {
+public class Break extends Statement
+{
     // Structure
-    // public ArrayList<String> labels;
+ // public ArrayList<String> labels;
     public String label;
 
     // Creation
-    public Break(ArrayList<String> ls, Token label) {
+    public Break(ArrayList<String> ls, Token label)
+    {
         super(ls);
         this.label = label.image;
+
+        Entity.reportParsing("BREAK");
     }
 
     // Reporting

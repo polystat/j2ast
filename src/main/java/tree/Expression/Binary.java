@@ -4,14 +4,16 @@ import lexer.Token;
 import lexer.TokenCode;
 import tree.Entity;
 
-public class Binary extends Expression {
+public class Binary extends Expression
+{
     // Structure
     public Expression left;
     public Expression right;
     public TokenCode operator;
 
     // Creation
-    public Binary(Expression l, Expression r, Token token) {
+    public Binary(Expression l, Expression r, Token token)
+    {
         super();
         this.left = l;
         this.right = r;
@@ -23,6 +25,7 @@ public class Binary extends Expression {
         if (this.right != null) {
             this.right.parent = this;
         }
+        Entity.reportParsing("BINARY " + operator.toString());
     }
 
     // Reporting

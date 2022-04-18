@@ -30,20 +30,22 @@ import tree.Type.TypeParameters;
 //    :  // empty
 //    | THROWS ClassTypeList1
 //    ;
-public class MethodDeclaration extends Declaration {
+public class MethodDeclaration extends Declaration
+{
     // Structure
-    // public Modifiers modifiers;
+ // public Modifiers modifiers;
     public TypeParameters typeParameters;
-    // public Type type;
-    // public String name;
-    // public ReceiverDeclaration receiver; -- this is a special kind of ParameterDeclaration
+ // public Type type;
+ // public String name;
+ // public ReceiverDeclaration receiver; -- this is a special kind of ParameterDeclaration
     public ParameterDeclarations parameters;
     public Dims dims;
     public TypeList exceptions;
     public Block methodBody;
 
     // Creation
-    public MethodDeclaration(MethodHeader header, Block body) {
+    public MethodDeclaration(MethodHeader header, Block body)
+    {
         super(null, header.declarator.name, header.type);
         this.typeParameters = header.typeParameters;
         this.parameters = header.declarator.parameters;
@@ -66,6 +68,7 @@ public class MethodDeclaration extends Declaration {
         if (this.methodBody != null) {
             this.methodBody.parent = this;
         }
+        Entity.reportParsing("METHOD DECLARATION");
     }
 
     public MethodDeclaration(Modifiers mods,
@@ -75,7 +78,8 @@ public class MethodDeclaration extends Declaration {
                              ParameterDeclarations pars,
                              Dims dims,
                              TypeList excs,
-                             Block body) {
+                             Block body)
+    {
         super(mods, n, t);
         this.typeParameters = typePars;
         this.parameters = pars;
@@ -98,6 +102,7 @@ public class MethodDeclaration extends Declaration {
         if (this.methodBody != null) {
             this.methodBody.parent = this;
         }
+        Entity.reportParsing("METHOD DECLARATION");
     }
 
     // Reporting

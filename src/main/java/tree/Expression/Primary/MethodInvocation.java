@@ -15,7 +15,8 @@ import tree.Type.TypeArguments;
 //    |                  SUPER DOT TypeArgumentsOpt IDENTIFIER Arguments
 //    | CompoundName DOT SUPER DOT TypeArgumentsOpt IDENTIFIER Arguments
 //    ;
-public class MethodInvocation extends Primary {
+public class MethodInvocation extends Primary
+{
     // Structure
     public Expression qualifier; // SimpleReference or Primary
     public boolean superSign;
@@ -30,7 +31,8 @@ public class MethodInvocation extends Primary {
     // ==================================
 
     // Creation
-    public MethodInvocation(Expression q, boolean ss, TypeArguments targs, Token name, ArgumentList args) {
+    public MethodInvocation(Expression q, boolean ss, TypeArguments targs, Token name, ArgumentList args)
+    {
         this.qualifier = q;
         this.superSign = ss;
         this.typeArguments = targs;
@@ -48,10 +50,12 @@ public class MethodInvocation extends Primary {
         if (this.arguments != null) {
             this.arguments.parent = this;
         }
+        Entity.reportParsing("METHOD INVOCATION");
     }
 
     // Reporting
-    public void report(int sh) {
+    public void report(int sh)
+    {
         String t = "METHOD INVOCATION: ";
         if (superSign) {
             t += "SUPER ";

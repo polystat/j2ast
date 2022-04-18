@@ -29,10 +29,11 @@ import tree.Type.TypeList;
 //    | SEMICOLON
 //    | SEMICOLON ClassBodyDeclarationSeq
 //    ;
-public class EnumDeclaration extends ClassDeclaration {
+public class EnumDeclaration extends ClassDeclaration
+{
     // Structure
-    // public Modifiers modifiers;  -- in the base class
-    // public String name;          -- in the base class
+ // public Modifiers modifiers;  -- in the base class
+ // public String name;          -- in the base class
     public TypeList implemented;
     public Enumerators enumerators;
     public Declarations body;
@@ -53,6 +54,7 @@ public class EnumDeclaration extends ClassDeclaration {
         if (this.body != null) {
             this.body.parent = this;
         }
+        Entity.reportParsing("ENUM DECLARATION");
     }
 
     // Reporting

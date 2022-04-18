@@ -1,6 +1,8 @@
 package tree.Statement;
 
 import java.util.ArrayList;
+
+import tree.Entity;
 import tree.Expression.Expression;
 
 // SimpleStatement
@@ -8,14 +10,16 @@ import tree.Expression.Expression;
 //    | DO Statement WHILE LPAREN Expression RPAREN SEMICOLON // DoStatement
 //    | ...
 //    ;
-public class Do extends Statement {
+public class Do extends Statement
+{
     // Structure
-    // public ArrayList<String> labels;
+ // public ArrayList<String> labels;
     public Statement statement;
     public Expression condition;
 
     // Creation
-    public Do(ArrayList<String> ls, Statement stmt, Expression cond) {
+    public Do(ArrayList<String> ls, Statement stmt, Expression cond)
+    {
         super(ls);
         this.statement = stmt;
         this.condition = cond;
@@ -26,6 +30,7 @@ public class Do extends Statement {
         if (this.condition != null) {
             this.condition.parent = this;
         }
+        Entity.reportParsing("DO");
     }
 
     // Reporting

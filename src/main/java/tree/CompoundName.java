@@ -9,18 +9,33 @@ import java.util.List;
 //    :                  IDENTIFIER { $$ = new CompoundName($1.image); }
 //    | CompoundName DOT IDENTIFIER { $$ = $1.add($3.image); }
 //    ;
-public class CompoundName extends Entity {
+public class CompoundName extends Entity
+{
     // Structure
     public ArrayList<String> names;
 
     // Creation
-    public CompoundName(String first) {
+    public CompoundName(String first)
+    {
         names = new ArrayList<>();
         names.add(first);
+
+        String cn = "";
+        for (int i = 0; i < names.size(); i++) {
+            cn += names.get(i);
+            if (i < names.size() - 1) {
+                cn += ".";
+            }
+        }
+        cn = "COMPOUND NAME " + cn;
+        Entity.reportParsing(cn);
     }
 
-    public CompoundName(List<String> name) {
+    public CompoundName(List<String> name)
+    {
         names = new ArrayList<>(name);
+
+        Entity.reportParsing("COMPOUND NAME");
     }
 
     // Adding
@@ -39,7 +54,7 @@ public class CompoundName extends Entity {
 
     // Reporting
     public void report(int sh) {
-        // Entity.doShift(sh);
+     // Entity.doShift(sh);
         for (int i = 0; i < names.size(); i++) {
             System.out.print(names.get(i));
             if (i < names.size() - 1) {

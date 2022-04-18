@@ -8,7 +8,8 @@ import tree.Type.TypeParameters;
 // ConstructorDeclarator
 //    : TypeParametersOpt IDENTIFIER LPAREN FormalParameterList/*FormalParameters*/ RPAREN
 //    ;
-public class ConstructorDeclarator extends Entity {
+public class ConstructorDeclarator extends Entity
+{
     // Structure
     public TypeParameters typeParameters;
     public ParameterDeclarations formalParameters;
@@ -24,6 +25,7 @@ public class ConstructorDeclarator extends Entity {
         if (this.formalParameters != null) {
             this.formalParameters.parent = this;
         }
+        Entity.reportParsing("CONSTRUCTOR DECLARATOR");
     }
 
     // Reporting

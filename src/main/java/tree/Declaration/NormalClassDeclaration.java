@@ -40,7 +40,8 @@ import tree.Type.TypeParameters;
 //    | STATIC Block           // StaticInitializer
 //    | SEMICOLON
 //    ;
-public class NormalClassDeclaration extends ClassDeclaration {
+public class NormalClassDeclaration extends ClassDeclaration
+{
     // Structure
     public TypeParameters typeParameters;
     public Type extendedType;
@@ -52,7 +53,8 @@ public class NormalClassDeclaration extends ClassDeclaration {
                                   TypeParameters typePars,
                                   Type extType,
                                   TypeList ints,
-                                  Declarations body) {
+                                  Declarations body)
+    {
         super(null, n.image);
         this.typeParameters = typePars;
         this.extendedType = extType;
@@ -71,9 +73,11 @@ public class NormalClassDeclaration extends ClassDeclaration {
         if (this.body != null) {
             this.body.parent = this;
         }
+        Entity.reportParsing("NORMAL CLASS DECLARATION");
     }
 
-    public List<VariableDeclaration> getStaticVariables() {
+    public List<VariableDeclaration> getStaticVariables()
+    {
         return body.declarations.stream()
                 .filter(dec -> dec instanceof VariableDeclaration)
                 .filter(dec -> dec.modifiers.modifiers.modifiers.contains(TokenCode.Static))
@@ -81,7 +85,8 @@ public class NormalClassDeclaration extends ClassDeclaration {
                 .collect(Collectors.toList());
     }
 
-    public List<VariableDeclaration> getNonStaticVariables() {
+    public List<VariableDeclaration> getNonStaticVariables()
+    {
         return body.declarations.stream()
                 .filter(dec -> dec instanceof VariableDeclaration)
                 .filter(dec -> !dec.modifiers.modifiers.modifiers.contains(TokenCode.Static))
@@ -89,7 +94,8 @@ public class NormalClassDeclaration extends ClassDeclaration {
                 .collect(Collectors.toList());
     }
 
-    public List<MethodDeclaration> getStaticMethods() {
+    public List<MethodDeclaration> getStaticMethods()
+    {
         return body.declarations.stream()
                 .filter(dec -> dec instanceof MethodDeclaration)
                 .filter(dec -> dec.modifiers.modifiers.modifiers.contains(TokenCode.Static))
@@ -97,7 +103,8 @@ public class NormalClassDeclaration extends ClassDeclaration {
                 .collect(Collectors.toList());
     }
 
-    public List<MethodDeclaration> getNonStaticMethods() {
+    public List<MethodDeclaration> getNonStaticMethods()
+    {
         return body.declarations.stream()
                 .filter(dec -> dec instanceof MethodDeclaration)
                 .filter(dec -> !dec.modifiers.modifiers.modifiers.contains(TokenCode.Static))
@@ -106,7 +113,8 @@ public class NormalClassDeclaration extends ClassDeclaration {
     }
 
     // Reporting
-    public void report(int sh) {
+    public void report(int sh)
+    {
         this.title("CLASS DECLARATION " + this.name, sh);
         if (this.typeParameters != null) {
             this.typeParameters.report(sh + shift);

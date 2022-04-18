@@ -165,7 +165,7 @@ public enum TokenCode {
     // to be distinguished from a yield statement. record has special meaning
     // in a record declaration (§8.10).
 
-    True(Lexer.FALSE),
+    True(Lexer.TRUE),
     False(Lexer.FALSE),
     Null(Lexer.NULL),
 

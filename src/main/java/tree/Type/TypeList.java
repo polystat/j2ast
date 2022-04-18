@@ -12,12 +12,14 @@ import tree.Entity;
 //    :                          Type
 //    | ClassTypeList2 AMPERSAND Type
 //    ;
-public class TypeList extends Entity {
+public class TypeList extends Entity
+{
     // Structure
     public ArrayList<Type> types;
 
     // Creation
-    public TypeList(Type t) {
+    public TypeList(Type t)
+    {
         this.types = new ArrayList<>();
         this.types.add(t);
         if (t != null) {

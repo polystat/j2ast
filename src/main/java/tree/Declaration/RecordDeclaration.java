@@ -1,5 +1,6 @@
 package tree.Declaration;
 
+import tree.Entity;
 import tree.Modifiers;
 import tree.Type.TypeParameters;
 
@@ -36,19 +37,21 @@ import tree.Type.TypeParameters;
 //    : ClassBodyDeclaration
 //    | ModifierSeqOpt IDENTIFIER ConstructorBody // CompactConstructorDeclaration
 //    ;
-public class RecordDeclaration extends ClassDeclaration {
+public class RecordDeclaration extends ClassDeclaration
+{
     // Structure
     public TypeParameters typeParameters;
     public RecordComponents recordComponents;
     public Declarations body;
-    // public CompactConstructor  !!!!!!!!!!!!!!!!!!!!!!!!
+ // public CompactConstructor  !!!!!!!!!!!!!!!!!!!!!!!!
 
     // Creation
     public RecordDeclaration(String n,
                              Modifiers mods,
                              TypeParameters typePars,
                              RecordComponents recordComps,
-                             Declarations body) {
+                             Declarations body)
+    {
         super(mods, n);
         this.modifiers = mods;
         this.typeParameters = typePars;
@@ -67,6 +70,7 @@ public class RecordDeclaration extends ClassDeclaration {
         if (this.body != null) {
             this.body.parent = this;
         }
+        Entity.reportParsing("RECORD DECLARATION");
     }
 
     // Reporting

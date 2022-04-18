@@ -19,7 +19,8 @@ package tree;
 //    : Expression
 //    | ArrayInitializer
 //    ;
-public class Initializer extends Entity {
+public class Initializer extends Entity
+{
     // NO structure
 
     // NO creation

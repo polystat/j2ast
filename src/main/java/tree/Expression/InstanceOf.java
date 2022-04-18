@@ -8,7 +8,8 @@ import tree.Type.Type;
 //    : RelationalExpression INSTANCEOF Type
 //    | RelationalExpression INSTANCEOF Pattern
 //    ;
-public class InstanceOf extends Expression {
+public class InstanceOf extends Expression
+{
     // Structure
     public Expression expression;
     // Either type OR declaration
@@ -16,7 +17,8 @@ public class InstanceOf extends Expression {
     public Declaration declaration;
 
     // Creation
-    public InstanceOf(Expression expr, Type type) {
+    public InstanceOf(Expression expr, Type type)
+    {
         this.expression = expr;
         this.type = type;
         this.declaration = null;
@@ -27,9 +29,11 @@ public class InstanceOf extends Expression {
         if (this.type != null) {
             this.type.parent = this;
         }
+        Entity.reportParsing("INSTANCEOF");
     }
 
-    public InstanceOf(Expression expr, Declaration decl) {
+    public InstanceOf(Expression expr, Declaration decl)
+    {
         this.expression = expr;
         this.type = null;
         this.declaration = decl;
@@ -40,6 +44,7 @@ public class InstanceOf extends Expression {
         if (this.declaration != null) {
             this.declaration.parent = this;
         }
+        Entity.reportParsing("INSTANCEOF");
     }
 
     // Reporting

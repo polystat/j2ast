@@ -18,7 +18,8 @@ import tree.Expression.Expression;
 //    :  // empty
 //    | ELSE Statement
 //    ;
-public class IfThenElse extends Statement {
+public class IfThenElse extends Statement
+{
     // Structure
     // public ArrayList<String> labels;
     public Expression condition;
@@ -26,7 +27,8 @@ public class IfThenElse extends Statement {
     public Statement elsePart;
 
     // Creation
-    public IfThenElse(ArrayList<String> ls, Expression c, Statement t, Statement e) {
+    public IfThenElse(ArrayList<String> ls, Expression c, Statement t, Statement e)
+    {
         super(ls);
         this.condition = c;
         this.thenPart = t;
@@ -41,6 +43,7 @@ public class IfThenElse extends Statement {
         if (this.elsePart != null) {
             this.elsePart.parent = this;
         }
+        Entity.reportParsing("IF-THEN-ELSE");
     }
 
     // Reporting

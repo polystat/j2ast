@@ -59,6 +59,8 @@ public class Scanner implements JavaParser.Lexer {
         lastToken = get();
 
         if (Entity.debug) {
+            System.out.print(lastToken.span.getBegin().getLine());
+            System.out.print(" ");
             System.out.print(lastToken.code);
             if (lastToken.code == TokenCode.Identifier) {
                 System.out.print(" " + lastToken.image);
@@ -77,13 +79,18 @@ public class Scanner implements JavaParser.Lexer {
         return lastToken;
     }
 
+    int lineNum = 1;
+    int posNum = 1;
+
     @Override
     public void yyerror(String msg) {
-        System.err.println(msg);
+        System.out.print(lineNum);
+        System.out.print(" ");
+        System.out.println(msg);
     }
 
     public Token get() {
-        // if ( currentToken == null ) currentToken = getToken();
+     // if ( currentToken == null ) currentToken = getToken();
 
         while (true) {
             currentToken = getToken();
@@ -107,30 +114,33 @@ public class Scanner implements JavaParser.Lexer {
         String image;
         Token token;
 
-        // if ( Entity.inBlock && Entity.unAnnotatedTypeTaken )
-        // {
-        //     Entity.unAnnotatedTypeTaken = false;
-        //     return new Token(TokenCode.Phantom,"");
-        // }
+     // if ( Entity.inBlock && Entity.unAnnotatedTypeTaken )
+     // {
+     //     Entity.unAnnotatedTypeTaken = false;
+     //     return new Token(TokenCode.Phantom,"");
+     // }
 
         while (true) {
             ch = getChar();
             if (ch == charZero) {
-                return new Token(TokenCode.EOS, "");
+                Token end = new Token(TokenCode.EOS, "");
+                end.setSpan(new Span(new Pos(lineNum,posNum),null));
+                return end;
             }
             if (ch == ' ' || ch == '\t') {
-                // currentPos++;
+             // currentPos++;
                 forgetChar();
                 continue;
             }
             if (ch == '\n') {
-                // currentLine++;
-                // currentPos = 0;
+                lineNum++;
+             // currentLine++;
+             // currentPos = 0;
                 forgetChar();
                 continue;
             }
             if (ch == '\r') {
-                // currentPos = 0;
+             // currentPos = 0;
                 forgetChar();
                 continue;
             }
@@ -491,6 +501,88 @@ public class Scanner implements JavaParser.Lexer {
                 }
                 break;
 
+            case '0': // integer
+                String literal = "" + ch;
+                forgetChar();
+                ch = getChar();
+                switch ( ch ) {
+                    case 'x':
+                    case 'X':
+                        forgetChar();
+                        literal += ch;
+                        while (true) {
+                            ch = getChar();
+                            if (isHexadecimal(ch)) {
+                                literal += ch;
+                                forgetChar();
+                            } else if (ch == '_') {
+                                forgetChar();
+                                continue;
+                            } else
+                                break;
+                        }
+                        break;
+
+                    case 'o':
+                    case 'O':
+                        forgetChar();
+                        literal += ch;
+                        while (true) {
+                            ch = getChar();
+                            if (isOctal(ch)) {
+                                literal += ch;
+                                forgetChar();
+                            } else if (ch == '_') {
+                                forgetChar();
+                                continue;
+                            } else
+                                break;
+                        }
+                        break;
+
+                    case 'b':
+                    case 'B':
+                        forgetChar();
+                        literal += ch;
+                        while (true) {
+                            ch = getChar();
+                            if (isBinary(ch)) {
+                                literal += ch;
+                                forgetChar();
+                            } else if (ch == '_') {
+                                forgetChar();
+                                continue;
+                            } else
+                                break;
+                        }
+                        break;
+
+                    default:
+                        while (true) {
+                            if (Character.isDigit(ch)) {
+                                literal = literal.concat("" + ch);
+                                forgetChar();
+                                ch = getChar();
+                            } else if (ch == '_') {
+                                forgetChar();
+                                ch = getChar();
+                                continue;
+                            } else {
+                                // forgetChar();
+                                break;
+                            }
+                        }
+                        break;
+                }
+                if ( Character.toUpperCase(ch) == 'L'  )
+                {
+                    literal += "" + ch;
+                    forgetChar();
+                }
+                image = literal;
+                code = TokenCode.IntegerLiteral;
+                break;
+
             default:
                 if (Character.isJavaIdentifierStart(ch)) {
                     String identifier = "" + ch;
@@ -507,12 +599,14 @@ public class Scanner implements JavaParser.Lexer {
                     image = identifier;
                     code = detectKeyword(identifier);
                 } else if (Character.isDigit(ch)) {
-                    String literal = "" + ch;
+                    literal = "" + ch;
                     while (true) {
                         forgetChar();
                         ch = getChar();
                         if (Character.isDigit(ch)) {
                             literal = literal.concat("" + ch);
+                        } else if ( ch == '_' ) {
+                            continue;
                         } else {
                             // forgetChar();
                             break;
@@ -526,8 +620,13 @@ public class Scanner implements JavaParser.Lexer {
                         while (true) {
                             if (Character.isDigit(ch)) {
                                 literal = literal.concat("" + ch);
-                            } else {
                                 forgetChar();
+                                ch = getChar();
+                                continue;
+                            } else if ( ch == '_' ) {
+                                continue;
+                            } else {
+                                //forgetChar();
                                 break;
                             }
                         }
@@ -543,7 +642,26 @@ public class Scanner implements JavaParser.Lexer {
                 break;
         }
         token = new Token(code, image);
+        token.setSpan(new Span(new Pos(lineNum,posNum),null));
         return token;
+    }
+
+    private boolean isHexadecimal(char ch)
+    {
+        if ( Character.isDigit(ch) ) return true;
+        char chU = Character.toUpperCase(ch);
+        if ( chU >= 'A' && chU <= 'F' ) return true;
+        return false;
+    }
+
+    private boolean isOctal(char ch)
+    {
+        return (ch>='0' && ch<='7');
+    }
+
+    private boolean isBinary(char ch)
+    {
+        return ch == '0' || ch == '1';
     }
 
     private String scanShortComment() {
@@ -552,6 +670,7 @@ public class Scanner implements JavaParser.Lexer {
             char ch = getChar();
             forgetChar();
             if (ch == '\n') {
+                lineNum++;
                 break;
             }
             comment.append(ch);
@@ -573,6 +692,9 @@ public class Scanner implements JavaParser.Lexer {
                 } else {
                     comment.append("*").append(ch);
                 }
+            } else if (ch == '\n') {
+                lineNum++;
+                comment.append(ch);
             } else {
                 comment.append(ch);
             }
@@ -591,7 +713,7 @@ public class Scanner implements JavaParser.Lexer {
             case "case" -> TokenCode.Case;
             case "char" -> TokenCode.Char;
             case "class" -> TokenCode.Class;
-            //         case "const"    : return TokenCode.Const;   // not actually used
+ //         case "const" -> TokenCode.Const;   // not actually used
             case "continue" -> TokenCode.Continue;
             case "default" -> TokenCode.Default;
             case "do" -> TokenCode.Do;
@@ -603,7 +725,7 @@ public class Scanner implements JavaParser.Lexer {
             case "finally" -> TokenCode.Finally;
             case "float" -> TokenCode.Float;
             case "for" -> TokenCode.For;
-            //         case "goto"     : return TokenCode.Goto; // not actually used
+ //         case "goto" -> TokenCode.Goto; // not actually used
             case "if" -> TokenCode.If;
             case "implements" -> TokenCode.Implements;
             case "import" -> TokenCode.Import;

@@ -13,7 +13,8 @@ import tree.Entity;
 //    | IDENTIFIER EXTENDS AnnotationSeqOpt IDENTIFIER
 //    | IDENTIFIER EXTENDS ClassTypeList2
 //    ;
-public class TypeParameter extends Entity {
+public class TypeParameter extends Entity
+{
     // Structure
     public Annotations annotations;
     public String name;
@@ -23,7 +24,8 @@ public class TypeParameter extends Entity {
     public TypeList extendingTypes;
 
     // Creation
-    public TypeParameter(Annotations anns, TypeParameterTail tail) {
+    public TypeParameter(Annotations anns, TypeParameterTail tail)
+    {
         this.annotations = anns;
         this.name = tail.identifier;
         this.extAnnotations = tail.extAnnotations;
@@ -39,6 +41,7 @@ public class TypeParameter extends Entity {
         if (this.extendingTypes != null) {
             this.extendingTypes.parent = this;
         }
+        Entity.reportParsing("TYPE PARAMETER");
     }
 
     // Reporting

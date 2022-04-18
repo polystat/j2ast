@@ -13,7 +13,8 @@ import tree.Entity;
 //    |                  THIS  // receiver
 //    | IDENTIFIER DOT   THIS  // receiver
 //    ;
-public class ParameterTail extends Entity {
+public class ParameterTail extends Entity
+{
     // Structure
     public Annotations annotations;
     public String identifier;
@@ -35,6 +36,7 @@ public class ParameterTail extends Entity {
         if (this.dims != null) {
             this.dims.parent = this;
         }
+        Entity.reportParsing("PARAMETER TAIL");
     }
 
     // Reporting

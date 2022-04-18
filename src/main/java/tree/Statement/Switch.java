@@ -1,6 +1,8 @@
 package tree.Statement;
 
 import java.util.ArrayList;
+
+import tree.Entity;
 import tree.Expression.Expression;
 
 // SimpleStatement
@@ -51,9 +53,10 @@ import tree.Expression.Expression;
 //    :                          AssignmentExpression
 //    | CaseExpressionList COMMA AssignmentExpression
 //    ;
-public class Switch extends Statement {
+public class Switch extends Statement
+{
     // Structure
-    // public ArrayList<String> labels;
+ // public ArrayList<String> labels;
     public Expression expression;
 
     // Either "rules" OR "blocks"
@@ -61,7 +64,8 @@ public class Switch extends Statement {
     public SwitchBlocks blocks;
 
     // Creation
-    public Switch(ArrayList<String> ls, Expression expr, SwitchRules rs) {
+    public Switch(ArrayList<String> ls, Expression expr, SwitchRules rs)
+    {
         super(ls);
         this.expression = expr;
         this.rules = rs;
@@ -73,9 +77,11 @@ public class Switch extends Statement {
         if (this.rules != null) {
             this.rules.parent = this;
         }
+        Entity.reportParsing("SWITCH");
     }
 
-    public Switch(ArrayList<String> ls, Expression expr, SwitchBlocks bs, int useless) {
+    public Switch(ArrayList<String> ls, Expression expr, SwitchBlocks bs, int useless)
+    {
         super(ls);
         this.expression = expr;
         this.blocks = bs;
@@ -86,6 +92,7 @@ public class Switch extends Statement {
         if (this.blocks != null) {
             this.blocks.parent = this;
         }
+        Entity.reportParsing("SWITCH");
     }
 
     // Reporting

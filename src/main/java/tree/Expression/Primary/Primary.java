@@ -16,5 +16,6 @@ import tree.Expression.Expression;
 //    | MethodReference
 //    | ArrayCreationExpression
 //    ;
-public class Primary extends Expression {
+public class Primary extends Expression
+{
 }

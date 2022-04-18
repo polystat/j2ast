@@ -24,14 +24,18 @@ import lexer.TokenCode;
 //    | VOLATILE
 //    | OPEN  // for modules only
 //    ;
-public class StandardModifiers extends Entity {
+public class StandardModifiers extends Entity
+{
     // Structure
     public ArrayList<TokenCode> modifiers;
 
     // Creation
-    public StandardModifiers(Token token) {
+    public StandardModifiers(Token token)
+    {
         this.modifiers = new ArrayList<>();
         this.modifiers.add(token.code);
+
+        Entity.reportParsing("STANDARD MODIFIERS");
     }
 
     public StandardModifiers add(Token token) {

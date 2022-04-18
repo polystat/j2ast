@@ -10,19 +10,22 @@ import tree.Expression.Expression;
 //    | RETURN Expression SEMICOLON            // ReturnStatement
 //    | ...
 //    ;
-public class Return extends Statement {
+public class Return extends Statement
+{
     // Structure
-    // public ArrayList<String> labels;
+ // public ArrayList<String> labels;
     public Expression expression;
 
     // Creation
-    public Return(ArrayList<String> ls, Expression expr) {
+    public Return(ArrayList<String> ls, Expression expr)
+    {
         super(ls);
         this.expression = expr;
 
         if (this.expression != null) {
             this.expression.parent = this;
         }
+        Entity.reportParsing("RETURN");
     }
 
     // Reporting

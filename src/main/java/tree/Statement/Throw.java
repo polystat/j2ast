@@ -9,18 +9,21 @@ import tree.Expression.Expression;
 //    | THROW Expression SEMICOLON      // ThrowStatement
 //    | ...
 //    ;
-public class Throw extends Statement {
+public class Throw extends Statement
+{
     // Structure
-    // public ArrayList<String> labels;
+ // public ArrayList<String> labels;
     public Expression expression;
 
     // Creation
-    public Throw(ArrayList<String> ls, Expression expr) {
+    public Throw(ArrayList<String> ls, Expression expr)
+    {
         super(ls);
         this.expression = expr;
         if (this.expression != null) {
             this.expression.parent = this;
         }
+        Entity.reportParsing("THROW");
     }
 
     // Reporting

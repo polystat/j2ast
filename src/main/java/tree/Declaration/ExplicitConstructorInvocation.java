@@ -13,7 +13,8 @@ import tree.Type.TypeArguments;
 //    | CompoundName DOT TypeArgumentsOpt SUPER Arguments SEMICOLON
 //    | Primary      DOT TypeArgumentsOpt SUPER Arguments SEMICOLON
 //    ;
-public class ExplicitConstructorInvocation extends Entity {
+public class ExplicitConstructorInvocation extends Entity
+{
     // Structure
     public Expression expression;
     public TypeArguments typeArguments;
@@ -21,10 +22,8 @@ public class ExplicitConstructorInvocation extends Entity {
     public ArgumentList arguments;
 
     // Creation
-    public ExplicitConstructorInvocation(
-            Expression expr,
-            TypeArguments targs,
-            boolean ts, ArgumentList args) {
+    public ExplicitConstructorInvocation(Expression expr,TypeArguments targs, boolean ts, ArgumentList args)
+    {
         this.expression = expr;
         this.typeArguments = targs;
         this.thisORsuper = ts;
@@ -39,6 +38,7 @@ public class ExplicitConstructorInvocation extends Entity {
         if (this.arguments != null) {
             this.arguments.parent = this;
         }
+        Entity.reportParsing("EXPLICIT CONSTRUCTOR INVOCATION");
     }
 
     // Reporting

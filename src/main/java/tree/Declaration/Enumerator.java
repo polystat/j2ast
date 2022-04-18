@@ -9,7 +9,8 @@ import tree.Expression.ArgumentList;
 //    : AnnotationSeqOpt IDENTIFIER Arguments
 //    | AnnotationSeqOpt IDENTIFIER Arguments ClassBody
 //    ;
-public class Enumerator extends Entity {
+public class Enumerator extends Entity
+{
     // Structure
     public Annotations annotations;
     public String name;
@@ -32,6 +33,7 @@ public class Enumerator extends Entity {
         if (this.enumBody != null) {
             this.enumBody.parent = this;
         }
+        Entity.reportParsing("ENUMERATOR");
     }
 
     // Reporting

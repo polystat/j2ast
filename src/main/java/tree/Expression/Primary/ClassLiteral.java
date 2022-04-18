@@ -9,7 +9,8 @@ import tree.Type.Type;
 //    | Type DimsOpt DOT CLASS // ClassLiteral
 //    | VOID DimsOpt DOT CLASS // ClassLiteral
 //    | ...
-public class ClassLiteral extends Literal {
+public class ClassLiteral extends Literal
+{
     // Structure
     public Type type;  // VOID, if type==null
     public Dims dims;
@@ -26,6 +27,7 @@ public class ClassLiteral extends Literal {
         if (this.dims != null) {
             this.dims.parent = this;
         }
+        Entity.reportParsing("CLASS LITERAL");
     }
 
     // Reporting

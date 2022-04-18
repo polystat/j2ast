@@ -8,16 +8,19 @@ import tree.Type.Type;
 //    |          THIS
 //    | Type DOT THIS
 //    | ...
-public class This extends Primary {
+public class This extends Primary
+{
     // Empty structure
     public Type type; // if non-null then "qualified this"
 
     // Creation
-    public This(Type t) {
+    public This(Type t)
+    {
         this.type = t;
         if (this.type != null) {
             this.type.parent = this;
         }
+        Entity.reportParsing("THIS");
     }
 
     // Reporting

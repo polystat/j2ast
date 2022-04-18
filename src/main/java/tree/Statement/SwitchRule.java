@@ -28,7 +28,8 @@ import tree.Expression.Expression;
 //    :                          AssignmentExpression
 //    | CaseExpressionList COMMA AssignmentExpression
 //    ;
-public class SwitchRule extends Entity {
+public class SwitchRule extends Entity
+{
     // ONE of the following values:
     public Expression expression;
     public Block block;
@@ -37,7 +38,8 @@ public class SwitchRule extends Entity {
     SwitchLabel label;
 
     // Creation: three cases
-    public SwitchRule(SwitchLabel l, Expression expr) {
+    public SwitchRule(SwitchLabel l, Expression expr)
+    {
         this.label = l;
         this.expression = expr;
         this.block = null;
@@ -49,6 +51,7 @@ public class SwitchRule extends Entity {
         if (this.expression != null) {
             this.expression.parent = this;
         }
+        Entity.reportParsing("SWITCH RULE");
     }
 
     public SwitchRule(SwitchLabel l, Block block) {

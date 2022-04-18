@@ -10,15 +10,19 @@ import tree.Entity;
 //    | CONTINUE IDENTIFIER  SEMICOLON         // ContinueStatement
 //    | ...
 //    ;
-public class Continue extends Statement {
+public class Continue extends Statement
+{
     // Structure
-    // public ArrayList<String> labels;
+ // public ArrayList<String> labels;
     public String label;
 
     // Creation
-    public Continue(ArrayList<String> ls, Token label) {
+    public Continue(ArrayList<String> ls, Token label)
+    {
         super(ls);
         this.label = label.image;
+
+        Entity.reportParsing("CONTINUE");
     }
 
     // Reporting

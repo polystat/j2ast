@@ -1,18 +1,21 @@
-package tree.Expression;
+package tree.Expression.Primary;
 
 import tree.Entity;
+import tree.Expression.Expression;
 
 // ArrayAccess
 //    : CompoundName LBRACKET Expression RBRACKET
 //    | Primary      LBRACKET Expression RBRACKET
 //    ;
-public class ArrayAccess extends Expression {
+public class ArrayAccess extends Primary
+{
     // Structure
     public Expression expression;
     public Expression size;
 
     // Creation
-    public ArrayAccess(Expression expr, Expression size) {
+    public ArrayAccess(Expression expr, Expression size)
+    {
         this.expression = expr;
         this.size = size;
 
@@ -22,6 +25,7 @@ public class ArrayAccess extends Expression {
         if (this.size != null) {
             this.size.parent = this;
         }
+        Entity.reportParsing("ARRAY ACCESS");
     }
 
     // Reporting

@@ -1,6 +1,7 @@
 package tree.Declaration;
 
 import tree.Annotations;
+import tree.Entity;
 import tree.Modifiers;
 import tree.Type.Type;
 
@@ -14,11 +15,12 @@ import tree.Type.Type;
 //    : AnnotationSeqOpt UnannotatedType                           IDENTIFIER
 //    | AnnotationSeqOpt UnannotatedType AnnotationSeqOpt ELLIPSIS IDENTIFIER // VariableArityRecordComponent
 //    ;
-public class RecordComponent extends Declaration {
+public class RecordComponent extends Declaration
+{
     // Structure
-    // public Modifiers modifiers;
-    // public String name;
-    // public Type type;
+ // public Modifiers modifiers;
+ // public String name;
+ // public Type type;
     public Annotations ellAnnotations;
     public boolean signEllipsis;
 
@@ -27,7 +29,8 @@ public class RecordComponent extends Declaration {
                            String n,
                            Type t,
                            Annotations ellAnns,
-                           boolean ell) {
+                           boolean ell)
+    {
         super(mods, n, t);
         this.ellAnnotations = ellAnns;
         this.signEllipsis = ell;
@@ -35,6 +38,7 @@ public class RecordComponent extends Declaration {
         if (this.ellAnnotations != null) {
             this.ellAnnotations.parent = this;
         }
+        Entity.reportParsing("RECORD COMPONENT");
     }
 
     // Reporting

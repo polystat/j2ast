@@ -1,6 +1,7 @@
 package tree.Expression;
 
 import tree.Declaration.ParameterDeclarations;
+import tree.Entity;
 import tree.Statement.Block;
 
 // LambdaExpression
@@ -31,7 +32,8 @@ import tree.Statement.Block;
 //    | ModifierSeqOpt VAR             IDENTIFIER DimsOpt
 //    | ModifierSeqOpt UnannotatedType AnnotationSeqOpt ELLIPSIS IDENTIFIER  // VariableArityParameter
 //    ;
-public class Lambda extends Expression {
+public class Lambda extends Expression
+{
     // Structure
     public ParameterDeclarations parameters;
     // One of these two!
@@ -39,7 +41,8 @@ public class Lambda extends Expression {
     public Block block;
 
     // Creation
-    public Lambda(ParameterDeclarations pars, Expression expr) {
+    public Lambda(ParameterDeclarations pars, Expression expr)
+    {
         this.parameters = pars;
         this.expression = expr;
         this.block = null;
@@ -50,9 +53,11 @@ public class Lambda extends Expression {
         if (this.expression != null) {
             this.expression.parent = this;
         }
+        Entity.reportParsing("LAMBDA");
     }
 
-    public Lambda(ParameterDeclarations pars, Block block) {
+    public Lambda(ParameterDeclarations pars, Block block)
+    {
         this.parameters = pars;
         this.block = block;
 
@@ -62,6 +67,7 @@ public class Lambda extends Expression {
         if (this.block != null) {
             this.block.parent = this;
         }
+        Entity.reportParsing("LAMBDA");
     }
 
     // Reporting

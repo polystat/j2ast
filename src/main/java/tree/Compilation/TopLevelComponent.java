@@ -23,6 +23,7 @@ public class TopLevelComponent extends Entity {
         if (this.classDecl != null) {
             this.classDecl.parent = this;
         }
+        Entity.reportParsing("TOP_LEVEL COMPONENT");
     }
 
     public TopLevelComponent(InterfaceDeclaration id) {
@@ -31,6 +32,7 @@ public class TopLevelComponent extends Entity {
         if (this.interfaceDecl != null) {
             this.interfaceDecl.parent = this;
         }
+        Entity.reportParsing("TOP_LEVEL COMPONENT");
     }
 
     public void addModifiers(Modifiers mods) {

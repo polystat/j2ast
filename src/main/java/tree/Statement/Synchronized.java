@@ -1,6 +1,8 @@
 package tree.Statement;
 
 import java.util.ArrayList;
+
+import tree.Entity;
 import tree.Expression.Expression;
 
 // SimpleStatement
@@ -8,14 +10,16 @@ import tree.Expression.Expression;
 //    | SYNCHRONIZED LPAREN Expression RPAREN Block  // SynchronizedStatement
 //    | ...
 //    ;
-public class Synchronized extends Statement {
+public class Synchronized extends Statement
+{
     // Structure
-    // public ArrayList<String> labels;
+ // public ArrayList<String> labels;
     public Expression expression;
     public Block block;
 
     // Creation
-    public Synchronized(ArrayList<String> ls, Expression expr, Block block) {
+    public Synchronized(ArrayList<String> ls, Expression expr, Block block)
+    {
         super(ls);
         this.expression = expr;
         this.block = block;
@@ -26,6 +30,7 @@ public class Synchronized extends Statement {
         if (this.block != null) {
             this.block.parent = this;
         }
+        Entity.reportParsing("SYNCHRONIZED");
     }
 
     // Reporting

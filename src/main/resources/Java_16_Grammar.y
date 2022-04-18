@@ -182,7 +182,9 @@
 // Nonterminal types
 // =================
 
-%nterm <CompoundName> CompoundName
+%nterm <CompoundName> CompoundName //CompoundNameAnnotated
+%nterm <CompoundNameAnnotated> AnnotatedCompoundName
+
 %nterm <Annotation> Annotation
 %nterm <Annotations> AnnotationSeq AnnotationSeqOpt
 %nterm <AnnoParameterList> AnnoParameterList
@@ -202,6 +204,8 @@
 
 %nterm <Dims> Dims DimsOpt
 %nterm <Dim> Dim
+//%nterm <DimExpr> DimExpr
+//%nterm <DimExprs> DimExprs
 
 %nterm <tree.Type.TypeArgument> TypeArgument
 %nterm <tree.Type.TypeArguments> TypeArguments TypeArgumentList TypeArgumentsOpt
@@ -236,15 +240,21 @@
 
 %nterm <AnnoElementValue> ElementValue
 
+%nterm <Primary> Primary
 %nterm <tree.Expression.Expression> Expression ExpressionOpt Assignment AssignmentExpression ConditionalExpression
-                    SwitchExpression PostfixExpression Primary UnaryExpression UnaryExpressionNotPlusMinus
+                    SwitchExpression PostfixExpression UnaryExpression UnaryExpressionNotPlusMinus
                     InstanceofExpression CastExpression LambdaExpression
                     LeftHandSide FieldAccess ArrayAccess MethodInvocation MethodReference
-                    ArrayCreationExpression ClassInstanceCreationExpression
+                    ArrayCreationExpression
 
 /*%nterm<tree.Expression.Binary> ConditionalOrTail*/ ConditionalOrExpression ConditionalAndExpression
                InclusiveOrExpression ExclusiveOrExpression AndExpression EqualityExpression RelationalExpression
                ShiftExpression AdditiveExpression MultiplicativeExpression
+
+%nterm <InstanceCreation>  UnqualifiedClassInstanceCreationExpression
+%nterm <Primary>  ClassInstanceCreationExpression
+//%nterm <InstanceCreationTmp> ClassOrInterfaceTypeToInstantiate
+%nterm <Type> ClassOrInterfaceTypeToInstantiate
 
 %nterm<tree.Expression.Binary> ConditionalOrTail
 
@@ -278,7 +288,8 @@
 %nterm <VariableDeclarator> VariableDeclarator
 %nterm <VariableDeclarators> VariableDeclaratorList
 
-%nterm <InitializerArray> ArrayInitializer VariableInitializerListOpt VariableInitializerList
+%nterm <Initializer> SimpleInitOpt ArrayInitOpt
+%nterm <InitializerArray> ArrayInitializer ArrayInitializerOpt VariableInitializerListOpt VariableInitializerList
 %nterm <InitializerSimple> VariableInitializer
 
 %nterm <SwitchBlock> SwitchBlock
@@ -441,12 +452,12 @@ Type
     ;
 
 UnannotatedType
-    : PrimitiveType              { $$ = new PrimitiveType($1); }
-	  // ReferenceType
-    | CompoundName               { $$ = new TypeName($1,null); }
-    | CompoundName TypeArguments { $$ = new TypeName($1,$2); }
-	  // ArrayType
-	| UnannotatedType Dim        { $$ = $1.addDimension($2); }
+    : PrimitiveType               { $$ = new PrimitiveType($1); }
+      // ReferenceType
+    | CompoundName                { $$ = new TypeName($1,null); }
+    | CompoundName TypeArguments  { $$ = new TypeName($1,$2); }
+//    // ArrayType
+    | UnannotatedType Dim         { $$ = $1.addDimension($2); }
     ;
 
 //PrimitiveType
@@ -684,11 +695,27 @@ VariableDeclaratorList
     | VariableDeclaratorList COMMA VariableDeclarator { $$ = $1.add($3); }
     ;
 
+//VariableDeclarator
+//    : IDENTIFIER                              { $$ = new VariableDeclarator($1,null,null); }
+//    | IDENTIFIER      EQUAL Expression        { $$ = new VariableDeclarator($1,null,new InitializerSimple($3)); }
+//    | IDENTIFIER Dims                         { $$ = new VariableDeclarator($1,$2,null); }
+//    | IDENTIFIER Dims EQUAL ArrayInitializer  { $$ = new VariableDeclarator($1,$2,$4); }
+//    ;
+
 VariableDeclarator
-    : IDENTIFIER                              { $$ = new VariableDeclarator($1,null,null); }
-    | IDENTIFIER      EQUAL Expression        { $$ = new VariableDeclarator($1,null,new InitializerSimple($3)); }
-    | IDENTIFIER Dims                         { $$ = new VariableDeclarator($1,$2,null); }
-    | IDENTIFIER Dims EQUAL ArrayInitializer  { $$ = new VariableDeclarator($1,$2,$4); }
+    : IDENTIFIER      SimpleInitOpt   { $$ = new VariableDeclarator($1,null,$2); }
+    | IDENTIFIER Dims ArrayInitOpt    { $$ = new VariableDeclarator($1,$2,$3); }
+    ;
+
+SimpleInitOpt
+    : %empty                  { $$ = null; }
+    | EQUAL Expression        { $$ = new InitializerSimple($2); }
+    | EQUAL ArrayInitializer  { $$ = $2; }
+    ;
+
+ArrayInitOpt
+    : %empty                  { $$ = null; }
+    | EQUAL ArrayInitializer  { $$ = $2; }
     ;
 
 ArrayInitializer
@@ -799,9 +826,20 @@ Dims
     | Dims Dim  { $$ = $1.add($2); }
     ;
 
+// We have joined together two productions: Dim & DimExpr.
+// For parsing semantically correct programs this change won't affect,
+// as well as for type calculation algorithms.
+
+//Dim
+//    : AnnotationSeq LBRACKET RBRACKET { $$ = new Dim($1); }
+//    |               LBRACKET RBRACKET { $$ = new Dim(null); }
+//    ;
+
 Dim
-    : AnnotationSeq LBRACKET RBRACKET { $$ = new Dim($1); }
-    |               LBRACKET RBRACKET { $$ = new Dim(null); }
+    :               LBRACKET            RBRACKET { $$ = new Dim(null,null); }
+    | AnnotationSeq LBRACKET            RBRACKET { $$ = new Dim($1,null); }
+    |               LBRACKET Expression RBRACKET { $$ = new Dim(null,$2); }
+    | AnnotationSeq LBRACKET Expression RBRACKET { $$ = new Dim($1,$3); }
     ;
 
 //// InterfaceDeclaration ////////////////////////
@@ -917,7 +955,7 @@ BlockStatement
     ;
 
 LocalVariableDeclaration
-    : UnannotatedType VariableDeclaratorList { $$ = new TypeAndDeclarators($1,$2); }
+    : UnannotatedType VariableDeclaratorList { $$ = new TypeAndDeclarators($1,$2); /*$$.report(30);*/ }
     | VAR             VariableDeclaratorList { $$ = new TypeAndDeclarators(null,$2); }
     ;
 
@@ -968,13 +1006,13 @@ LabeledStatement
     ;
 
 StatementExpression
-    : Assignment                   { $$ = new StatementExpression(null,$1); }
-    | PreIncrementExpression       { $$ = new StatementExpression(null,$1); }
-    | PreDecrementExpression       { $$ = new StatementExpression(null,$1); }
-    | PostIncrementExpression      { $$ = new StatementExpression(null,$1); }
-    | PostDecrementExpression      { $$ = new StatementExpression(null,$1); }
-    | MethodInvocation             { $$ = new StatementExpression(null,$1); }
-    | ClassInstanceCreationExpression  { $$ = $1; }
+    : Assignment                       { $$ = new StatementExpression(null,$1); }
+    | PreIncrementExpression           { $$ = new StatementExpression(null,$1); }
+    | PreDecrementExpression           { $$ = new StatementExpression(null,$1); }
+    | PostIncrementExpression          { $$ = new StatementExpression(null,$1); }
+    | PostDecrementExpression          { $$ = new StatementExpression(null,$1); }
+    | MethodInvocation                 { $$ = new StatementExpression(null,$1); }
+    | ClassInstanceCreationExpression  { $$ = new StatementExpression(null,$1); }
     ;
 
 IfThenElseStatement
@@ -1139,7 +1177,7 @@ Primary
     | THIS                              { $$ = new This(null); }
     | Type DOT THIS                     { $$ = new This($1); }
     | LPAREN Expression RPAREN          { $$ = new Parenthesized($2); }
-    | ClassInstanceCreationExpression   { $$ = null; } // not implemented yet
+    | ClassInstanceCreationExpression   { $$ = $1; }
     | FieldAccess                       { $$ = $1; }
     | ArrayAccess                       { $$ = $1; }
     | MethodInvocation                  { $$ = $1; }
@@ -1147,31 +1185,42 @@ Primary
     | ArrayCreationExpression           { $$ = $1; }  // not implemented yet
     ;
 
+//ArrayAccess
+//    : CompoundName Dim  { $$ = new ArrayAccess(new SimpleReference($1),$2.expression); }
+//    | Primary      Dim  { $$ = new ArrayAccess($1,$2.expression); }
+//    ;
+
 //ClassLiteral:
 //	TypeName	 { [ ] }	. class
 //	NumericType { [ ] }	. class
 //	boolean	 { [ ] }	. class
 //	void			. class
 
+
 ClassInstanceCreationExpression
-    :                  UnqualifiedClassInstanceCreationExpression { $$ = null; } // not implemented yet
-    | CompoundName DOT UnqualifiedClassInstanceCreationExpression { $$ = null; } // not implemented yet
-    | Primary      DOT UnqualifiedClassInstanceCreationExpression { $$ = null; } // not implemented yet
+    :                  UnqualifiedClassInstanceCreationExpression { $$ = new InstanceCreationQualified((Primary)null,$1); }
+    | CompoundName DOT UnqualifiedClassInstanceCreationExpression { $$ = new InstanceCreationQualified($1,$3); }
+    | Primary      DOT UnqualifiedClassInstanceCreationExpression { $$ = new InstanceCreationQualified($1,$3); }
     ;
 
 UnqualifiedClassInstanceCreationExpression
     : NEW TypeArgumentsOpt ClassOrInterfaceTypeToInstantiate Arguments ClassBodyOpt
+                                             { $$ = new InstanceCreation($2,$3,$4,$5); }
     ;
 
 ClassOrInterfaceTypeToInstantiate
-    : AnnotatedCompoundName TypeArgumentsOpt
-    | AnnotatedCompoundName DIAMOND
+    : Type    { $$ = $1; }
     ;
 
-AnnotatedCompoundName
-    :                           AnnotationSeqOpt /*AnnotationOpt*/ IDENTIFIER
-    | AnnotatedCompoundName DOT AnnotationSeqOpt /*AnnotationOpt*/ IDENTIFIER
-    ;
+// ClassOrInterfaceTypeToInstantiate
+//    : AnnotatedCompoundName TypeArgumentsOpt { $$ = new InstanceCreationTmp($1,$2); }
+//    | AnnotatedCompoundName DIAMOND          { $$ = new InstanceCreationTmp($1,null); }
+//    ;
+//
+//AnnotatedCompoundName
+//    :                           AnnotationSeqOpt /*AnnotationOpt*/ IDENTIFIER { $$ = new CompoundNameAnnotated($1,$2.image); }
+//    | AnnotatedCompoundName DOT AnnotationSeqOpt /*AnnotationOpt*/ IDENTIFIER { $$ = $1.add($3,$4.image); }
+//    ;
 
 TypeArgumentsOpt
     : %empty          { $$ = null; }
@@ -1179,7 +1228,8 @@ TypeArgumentsOpt
     ;
 
 TypeArguments
-    : LESS TypeArgumentList GREATER  { $$ = $2; }
+    : LESS                  GREATER  { $$ = null; }
+    | LESS TypeArgumentList GREATER  { $$ = $2; }
     ;
 
 TypeArgumentList
@@ -1210,8 +1260,9 @@ FieldAccess
     ;
 
 ArrayAccess
-    : CompoundName LBRACKET Expression RBRACKET  { $$ = new ArrayAccess(new SimpleReference($1),$3); }
-    | Primary      LBRACKET Expression RBRACKET  { $$ = new ArrayAccess($1,$3); }
+    : CompoundName Dim  { $$ = new ArrayAccess(new SimpleReference($1),$2.expression); }
+    | Primary      Dim  { $$ = new ArrayAccess($1,$2.expression); }
+    | ArrayAccess Dim { $$ = null; /* $1.addDimension($2.expression);*/ }
     ;
 
 MethodInvocation
@@ -1249,20 +1300,44 @@ MethodReference
     | Type           DBL_COLON TypeArgumentsOpt NEW        { $$ = null; } // not implemented yet
     ;
 
+//ArrayCreationExpression
+//    : NEW UnannotatedType Dim                   { $2.addDimension($3); $$ = new ArrayCreation($2,null);  }
+//    | NEW UnannotatedType Dim ArrayInitializer  { $2.addDimension($3); $$ = new ArrayCreation($2,$4); }
+//    ;
+
 ArrayCreationExpression
-    : NEW Type DimExprs DimsOpt        { $$ = null; } // not implemented yet
-    | NEW Type Dims ArrayInitializer   { $$ = null; } // not implemented yet
+    : NEW PrimitiveType             Dims ArrayInitializerOpt { PrimitiveType pt = new PrimitiveType($2);
+                                                               pt.setDimensions($3);
+                                                               $$ = new ArrayCreation(pt,$4); }
+    | NEW CompoundName              Dims ArrayInitializerOpt { TypeName tn = new TypeName($2,null);
+                                                               tn.setDimensions($3);
+                                                               $$ = new ArrayCreation(tn,$4); }
+    | NEW CompoundName TypeArguments Dims ArrayInitializerOpt { TypeName tn = new TypeName($2,$3);
+                                                               tn.setDimensions($4);
+                                                               $$ = new ArrayCreation(tn,$5); }
     ;
 
-DimExprs
-    :          DimExpr
-    | DimExprs DimExpr
+ArrayInitializerOpt
+    : %empty            { $$ = null; }
+    | ArrayInitializer  { $$ = $1; }
     ;
 
-DimExpr
-    :               LBRACKET Expression RBRACKET
-    | AnnotationSeq LBRACKET Expression RBRACKET
-    ;
+//ArrayCreationExpression
+//    : NEW NonArrayType DimExprs DimsOpt        { $$ = new ArrayCreation($2,$3,$4); }
+//    | NEW NonArrayType Dims ArrayInitializer   { $$ = new ArrayCreation($2,null,null); } // not implemented yet
+//    ;
+//
+// ===DimExp(s) productions were joined with Dim(s).===
+//
+//DimExprs
+//    :          DimExpr  { $$ = new DimExprs($1); }
+//    | DimExprs DimExpr  { $$ = $1.add($2); }
+//    ;
+//
+//DimExpr
+//    :               LBRACKET Expression RBRACKET { $$ = new DimExpr(null,$2); }
+//    | AnnotationSeq LBRACKET Expression RBRACKET { $$ = new DimExpr($1,$3); }
+//    ;
 
 //// Expressions //////////////////////////////////////////////////
 

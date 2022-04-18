@@ -1,5 +1,6 @@
 package tree.Declaration;
 
+import tree.Entity;
 import tree.Modifiers;
 import tree.Statement.Block;
 import tree.Type.TypeList;
@@ -19,16 +20,17 @@ import tree.Type.TypeParameters;
 //    | LBRACE                               BlockStatementSeq RBRACE
 //    | LBRACE ExplicitConstructorInvocation BlockStatementSeq RBRACE
 //    ;
-public class ConstructorDeclaration extends MethodDeclaration {
+public class ConstructorDeclaration extends MethodDeclaration
+{
     // Structure: all from the base class
-    // public Modifiers modifiers;
-    // public TypeParameters typeParameters;
-    // public Type type;                           // always null
-    // public String name;                         // always null
-    // public ReceiverDeclaration receiver;
-    // public ParameterDeclarations parameters;
-    // public Dims dims;                           // always null
-    // public TypeList exceptions;
+ // public Modifiers modifiers;
+ // public TypeParameters typeParameters;
+ // public Type type;                           // always null
+ // public String name;                         // always null
+ // public ReceiverDeclaration receiver;
+ // public ParameterDeclarations parameters;
+ // public Dims dims;                           // always null
+ // public TypeList exceptions;
     public ExplicitConstructorInvocation invocation;
     //  public Block methodBody;
 
@@ -45,6 +47,7 @@ public class ConstructorDeclaration extends MethodDeclaration {
         if (this.invocation != null) {
             this.invocation.parent = this;
         }
+        Entity.reportParsing("CONSTRUCTOR DECLARATION");
     }
 
     // Reporting

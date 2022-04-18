@@ -11,7 +11,8 @@ import tree.Entity;
 //    | QUESTION Expression COLON ConditionalExpression
 //    | QUESTION Expression COLON LambdaExpression
 //    ;
-public class Conditional extends Expression {
+public class Conditional extends Expression
+{
     // Structure
     public Expression condition;
     public Expression thenPart;
@@ -32,6 +33,7 @@ public class Conditional extends Expression {
         if (this.elsePart != null) {
             this.elsePart.parent = this;
         }
+        Entity.reportParsing("CONDITIONAL");
     }
 
     // Reporting

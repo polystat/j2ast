@@ -1,5 +1,6 @@
 package tree.Declaration;
 
+import tree.Entity;
 import tree.Statement.Block;
 
 // ClassBodyDeclaration
@@ -8,7 +9,8 @@ import tree.Statement.Block;
 //     | STATIC Block         // StaticInitializer
 //     | ...
 //     ;
-public class ClassInitializer extends Declaration {
+public class ClassInitializer extends Declaration
+{
     // Structure
     public Block block;
     public boolean signStatic;
@@ -22,6 +24,7 @@ public class ClassInitializer extends Declaration {
         if (this.block != null) {
             this.block.parent = this;
         }
+        Entity.reportParsing("CLASS INITIALIZER");
     }
 
     // Reporting

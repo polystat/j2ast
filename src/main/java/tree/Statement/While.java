@@ -7,14 +7,16 @@ import tree.Expression.Expression;
 // WhileStatement
 //    : WHILE LPAREN Expression RPAREN Statement
 //    ;
-public class While extends Statement {
+public class While extends Statement
+{
     // Structure
-    // public ArrayList<String> labels;
+ // public ArrayList<String> labels;
     public Expression condition;
     public Statement statement;
 
     // Creation
-    public While(ArrayList<String> ls, Expression c, Statement s) {
+    public While(ArrayList<String> ls, Expression c, Statement s)
+    {
         super(ls);
         this.condition = c;
         this.statement = s;
@@ -25,6 +27,7 @@ public class While extends Statement {
         if (this.statement != null) {
             this.statement.parent = this;
         }
+        Entity.reportParsing("WHILE");
     }
 
     // Reporting

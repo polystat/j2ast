@@ -45,12 +45,16 @@ public class ParameterDeclaration extends Declaration
 
         if ( this.ellAnnotations != null ) this.ellAnnotations.parent = this;
         if ( this.dims != null )           this.dims.parent = this;
+
+        Entity.reportParsing("PARAMETER DECLARATION");
     }
+
     public ParameterDeclaration(Token token)
     {
         // For the single lambda parameter
         this(null,null,token.image,null,false,null);
     }
+
     public static ParameterDeclaration create(Modifiers mods,Type type,ParameterTail tail)
     {
         if ( tail.thisSign ) // this is the receiver declaration

@@ -1,6 +1,7 @@
 package tree.Compilation;
 
 import tree.Declaration.ImportDeclarations;
+import tree.Entity;
 
 // CompilationUnit
 //    : %empty
@@ -24,6 +25,7 @@ public class SimpleCompilationUnit extends CompilationUnit {
         if (this.components != null) {
             this.components.parent = this;
         }
+        Entity.reportParsing("SIMPLE COMPILATION UNIT");
     }
 
     // Reporting

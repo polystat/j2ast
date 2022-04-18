@@ -28,6 +28,7 @@ public class Package extends CompilationUnit {
         if (this.components != null) {
             this.components.parent = this;
         }
+        Entity.reportParsing("PACKAGE");
     }
 
     // Reporting
@@ -37,7 +38,7 @@ public class Package extends CompilationUnit {
         compoundName.report(0);
         System.out.println();
 
-        imports.report(sh);
+        if ( imports != null ) imports.report(sh);
         components.report(sh);
     }
 

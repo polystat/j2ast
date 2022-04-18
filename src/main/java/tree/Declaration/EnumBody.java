@@ -8,7 +8,8 @@ import tree.Entity;
 //    : LBRACE EnumConstantListOpt       EnumBodyDeclarationsOpt RBRACE
 //    | LBRACE EnumConstantListOpt COMMA EnumBodyDeclarationsOpt RBRACE
 //    ;
-public class EnumBody extends Entity {
+public class EnumBody extends Entity
+{
     // Structure
     public Enumerators enumerators;
     public Declarations declarations;
@@ -24,6 +25,7 @@ public class EnumBody extends Entity {
         if (this.declarations != null) {
             this.declarations.parent = this;
         }
+        Entity.reportParsing("ENUM BODY");
     }
 
     // Reporting

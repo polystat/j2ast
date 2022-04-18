@@ -3,16 +3,19 @@ package tree.Expression;
 import tree.CompoundName;
 import tree.Entity;
 
-public class SimpleReference extends Expression {
+public class SimpleReference extends Expression
+{
     // Structure
     public CompoundName compoundName;
 
     // Creation
-    public SimpleReference(CompoundName cn) {
+    public SimpleReference(CompoundName cn)
+    {
         this.compoundName = cn;
         if (cn != null) {
             cn.parent = this;
         }
+        Entity.reportParsing("SIMPLE REFERENCE");
     }
 
     // Reporting

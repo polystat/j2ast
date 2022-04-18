@@ -8,9 +8,10 @@ import tree.Type.TypeParameters;
 // NormalInterfaceDeclaration
 //    : INTERFACE IDENTIFIER TypeParametersOpt InterfaceExtendsOpt InterfaceBody
 //    ;
-public class NormalInterfaceDeclaration extends InterfaceDeclaration {
+public class NormalInterfaceDeclaration extends InterfaceDeclaration
+{
     // Structure
-    // public String identifier;
+ // public String identifier;
     public TypeParameters typeParameters;
     public TypeList extendingInterfaces;
     public Declarations interfaceBody;
@@ -20,7 +21,8 @@ public class NormalInterfaceDeclaration extends InterfaceDeclaration {
             Token id,
             TypeParameters typePars,
             TypeList extTypes,
-            Declarations body) {
+            Declarations body)
+    {
         super(null, id.image);
         this.typeParameters = typePars;
         this.extendingInterfaces = extTypes;
@@ -35,10 +37,12 @@ public class NormalInterfaceDeclaration extends InterfaceDeclaration {
         if (this.interfaceBody != null) {
             this.interfaceBody.parent = this;
         }
+        Entity.reportParsing("NORMAL INTERFACE DECLARATION");
     }
 
     // Reporting
-    public void report(int sh) {
+    public void report(int sh)
+    {
         doShift(sh);
         System.out.println("INTERFACE " + super.name);
         if (typeParameters != null) {

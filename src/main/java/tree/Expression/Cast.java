@@ -7,13 +7,15 @@ import tree.Type.TypeList;
 //    : TargetType UnaryExpression
 //    | TargetType LambdaExpression
 //    ;
-public class Cast extends Expression {
+public class Cast extends Expression
+{
     // Structure
     public TypeList types;
     public Expression expression;
 
     // Creation
-    public Cast(TypeList types, Expression expr) {
+    public Cast(TypeList types, Expression expr)
+    {
         this.types = types;
         this.expression = expr;
 
@@ -23,6 +25,7 @@ public class Cast extends Expression {
         if (this.expression != null) {
             this.expression.parent = this;
         }
+        Entity.reportParsing("CAST");
     }
 
     // Reporting

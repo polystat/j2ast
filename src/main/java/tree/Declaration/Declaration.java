@@ -35,7 +35,8 @@ import tree.Type.Type;
 //    : UnannotatedType VariableDeclaratorList
 //    | VAR             VariableDeclaratorList
 //    ;
-public class Declaration extends Entity {
+public class Declaration extends Entity
+{
     // Structure: properties common to (almost) all
     // kinds of declarations.
     public Modifiers modifiers;
@@ -43,7 +44,8 @@ public class Declaration extends Entity {
     public Type type;
 
     // Creation
-    public Declaration(Modifiers mods, String n, Type t) {
+    public Declaration(Modifiers mods, String n, Type t)
+    {
         this.modifiers = mods;
         this.name = n;
         this.type = t;
@@ -54,6 +56,7 @@ public class Declaration extends Entity {
         if (this.type != null) {
             this.type.parent = this;
         }
+        Entity.reportParsing("DECLARATION");
     }
 
     public Declaration addModifiers(Modifiers mods) {

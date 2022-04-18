@@ -7,22 +7,24 @@ import tree.Type.Type;
 
 public class TypeAndDeclarators extends Declaration {
     // Structure
-    // public Type type; -- in the base class
+ // public Type type; -- in the base class
     public VariableDeclarators declarators;
 
     // Creation
     public TypeAndDeclarators(Type t, VariableDeclarators vds) {
         super(null, null, t);
         this.declarators = vds;
-        if (vds != null) {
-            vds.parent = this;
-        }
-        if (debug) {
-            System.out.println("Type with declarator(s) taken");
-        }
+        if (vds != null) vds.parent = this;
+//      if (debug) {
+//          System.out.println("Type with declarator(s) taken");
+//      }
+        Entity.reportParsing("TYPE & DECLARATOR(S)");
     }
 
     // Reporting
-    public void report(int sh) {
+    public void report(int sh)
+    {
+        if ( type != null ) type.report(sh);
+        declarators.report(sh);
     }
 }

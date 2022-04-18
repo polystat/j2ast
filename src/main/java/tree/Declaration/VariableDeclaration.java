@@ -30,10 +30,11 @@ import tree.Type.Type;
 //    | IDENTIFIER Dims
 //    | IDENTIFIER Dims EQUAL ArrayInitializer
 //    ;
-public class VariableDeclaration extends Declaration {
+public class VariableDeclaration extends Declaration
+{
     // Structure
-    // public Modifiers modifiers;  -- from the base class
-    // public String name;          -- from the base class
+ // public Modifiers modifiers;  -- from the base class
+ // public String name;          -- from the base class
     public Dims dims;
 
     // Either a single expression, or a list of initializers
@@ -44,7 +45,8 @@ public class VariableDeclaration extends Declaration {
                                Modifiers mods,
                                Type t,
                                Dims dims,
-                               Initializer init) {
+                               Initializer init)
+    {
         super(mods, n, t);
         this.dims = dims;
         this.initializer = init;
@@ -55,6 +57,7 @@ public class VariableDeclaration extends Declaration {
         if (this.initializer != null) {
             this.initializer.parent = this;
         }
+        Entity.reportParsing("VARIABLE DECLARATION");
     }
 
     // Reporting

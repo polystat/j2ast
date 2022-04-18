@@ -10,14 +10,16 @@ import tree.Expression.Expression;
 //    | ASSERT Expression COLON Expression SEMICOLON // AssertStatement
 //    | ...
 //    ;
-public class Assert extends Statement {
+public class Assert extends Statement
+{
     // Structure
-    // public ArrayList<String> labels;
+ // public ArrayList<String> labels;
     public Expression expression;
     public Expression expression2;
 
     // Creation
-    public Assert(ArrayList<String> ls, Expression expr, Expression expr2) {
+    public Assert(ArrayList<String> ls, Expression expr, Expression expr2)
+    {
         super(ls);
         this.expression = expr;
         this.expression2 = expr2;
@@ -28,6 +30,7 @@ public class Assert extends Statement {
         if (this.expression2 != null) {
             this.expression2.parent = this;
         }
+        Entity.reportParsing("ASSERT");
     }
 
     // Reporting

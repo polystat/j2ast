@@ -6,13 +6,15 @@ import tree.Entity;
 // CatchClause
 //    : CATCH LPAREN CatchFormalParameter RPAREN Block
 //    ;
-public class CatchClause extends Entity {
+public class CatchClause extends Entity
+{
     // Structure
     public CatchParameter catchParameter;
     public Block block;
 
     // Creation
-    public CatchClause(CatchParameter catchPar, Block b) {
+    public CatchClause(CatchParameter catchPar, Block b)
+    {
         this.catchParameter = catchPar;
         this.block = b;
 
@@ -22,6 +24,7 @@ public class CatchClause extends Entity {
         if (this.block != null) {
             this.block.parent = this;
         }
+        Entity.reportParsing("CATCH CLAUSE");
     }
 
     // Reporting

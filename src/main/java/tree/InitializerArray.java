@@ -2,17 +2,20 @@ package tree;
 
 import java.util.ArrayList;
 
-public class InitializerArray extends Initializer {
+public class InitializerArray extends Initializer
+{
     // Structure
     public ArrayList<Initializer> initializers;
 
     // Creation
-    public InitializerArray(Initializer init) {
+    public InitializerArray(Initializer init)
+    {
         this.initializers = new ArrayList<>();
         this.initializers.add(init);
         if (init != null) {
             init.parent = this;
         }
+        Entity.reportParsing("INITIALIZER ARRAY");
     }
 
     public InitializerArray add(Initializer init) {
@@ -24,8 +27,13 @@ public class InitializerArray extends Initializer {
     }
 
     // Reporting
-    public void report(int sh) {
-
+    public void report(int sh)
+    {
+        title("ARRAY INITIALIZER",sh);
+        for ( Initializer init: initializers )
+        {
+            init.report(sh+Entity.shift);
+        }
     }
 
 }

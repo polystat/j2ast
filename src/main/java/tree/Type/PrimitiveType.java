@@ -3,6 +3,7 @@ package tree.Type;
 import lexer.Token;
 import lexer.TokenCode;
 import tree.Entity;
+import tree.*;
 
 // PrimitiveType
 //             // NumericType -- IntegralType
@@ -16,7 +17,8 @@ import tree.Entity;
 //    | DOUBLE
 //    | BOOLEAN
 //    ;
-public class PrimitiveType extends UnannotatedType {
+public class PrimitiveType extends UnannotatedType
+{
     // Structure
     public TokenCode typeCode;
 
@@ -24,11 +26,15 @@ public class PrimitiveType extends UnannotatedType {
     public PrimitiveType(Token token) {
         super(null);
         this.typeCode = token.code;
+    //  super.dimensions = dims;
 
         // Entity.unAnnotatedTypeTaken = true;
-        if (debug) {
-            System.out.println("Primitive type accepted");
-        }
+ //     if (debug) {
+ //         System.out.println("Primitive type accepted");
+ //     }
+        String rep = "PRIMITIVE TYPE " + typeCode.toString();
+//      if ( dims != null ) rep += "WITH " + super.dimensions.dimensions.size() + " DIMS";
+        Entity.reportParsing(rep);
     }
 
     // Reporting
