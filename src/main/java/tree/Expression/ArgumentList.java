@@ -1,6 +1,7 @@
 package tree.Expression;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import tree.Entity;
 
 // Arguments
@@ -25,6 +26,11 @@ public class ArgumentList extends Entity
             expr.parent = this;
         }
     }
+
+	public ArgumentList(Collection<Expression> exprs) {
+        this.arguments = new ArrayList<>();
+		this.arguments.addAll(exprs);
+	}
 
     public ArgumentList add(Expression expr) {
         this.arguments.add(expr);
