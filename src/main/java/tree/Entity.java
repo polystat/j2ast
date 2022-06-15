@@ -3,6 +3,8 @@ package tree;
 import lexer.Span;
 import lexer.Token;
 
+import java.lang.reflect.Field;
+
 // The root class of the whole hierarchy of classes
 // representing various Java constructs.
 
@@ -71,4 +73,31 @@ public class Entity
         System.out.println(title);
     }
 
+    public void validateParent(Class<?> currentClass) {
+        for (Field field : currentClass.getDeclaredFields()) {
+            if (!field.getName().equals("parent")) {
+                try {
+                    Object o = field.get(this);
+
+                    if (o instanceof Iterable<?> items) {
+                        for (Object item : items) {
+                            if (item instanceof Entity e) {
+                                e.parent = this;
+                                e.validateParent(e.getClass());
+                            }
+                        }
+                    } else if (o instanceof Entity e) {
+                        e.parent = this;
+                        e.validateParent(e.getClass());
+                    }
+                } catch (IllegalAccessException e) {
+                    /* Nothing here */
+                }
+            }
+        }
+
+        if (currentClass.getSuperclass() != null) {
+            validateParent(currentClass.getSuperclass());
+        }
+    }
 }

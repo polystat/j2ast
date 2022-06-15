@@ -1,10 +1,12 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 import java.security.MessageDigest
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     java
     `maven-publish`
     signing
+    kotlin("jvm") version "1.7.0"
 }
 
 group = "org.polystat"
@@ -31,8 +33,8 @@ val latestGrammarMD5FilePath = "out/latestGrammarMD5"
 
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_15
-    targetCompatibility = JavaVersion.VERSION_15
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
 
     withSourcesJar()
 }
@@ -47,6 +49,7 @@ dependencies {
 
     // Library for command-line arguments support
     implementation("commons-cli:commons-cli:1.5.0")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.getByName<Test>("test") {
@@ -231,3 +234,12 @@ fun readMD5FromFile(filepath: String): String =
 
 fun writeMD5ToFile(md5: String, filepath: String) =
     File(filepath).writeText(md5)
+
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
