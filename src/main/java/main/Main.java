@@ -8,7 +8,6 @@ import tree.Declaration.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.Map;
 
 public class Main {
