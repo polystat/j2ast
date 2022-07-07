@@ -3,7 +3,6 @@ package tree.Type;
 import lexer.Token;
 import lexer.TokenCode;
 import tree.Entity;
-import tree.*;
 
 // PrimitiveType
 //             // NumericType -- IntegralType

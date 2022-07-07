@@ -2,3 +2,9 @@ build
 .idea
 .gradle
 out
+
+.vscode
+bin/main
+
+# JVM error dumps
+hs_err*

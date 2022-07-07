@@ -1,13 +1,10 @@
 package tree.Expression.Primary;
 
-import tree.CompoundNameAnnotated;
 import tree.Declaration.Declarations;
 import tree.Entity;
 import tree.Expression.ArgumentList;
 import tree.Type.*;
 import tree.Type.TypeArguments;
-
-import java.util.ArrayList;
 
 // Primary
 //    : ...

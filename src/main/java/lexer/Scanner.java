@@ -268,24 +268,27 @@ public class Scanner implements JavaParser.Lexer {
                 forgetChar();
                 ch = getChar();
                 switch (ch) {
-                    case '=' -> {
+                    case '=': {
                         forgetChar();
                         code = TokenCode.SlashAssign;
                         image = "/=";
+                        break;
                     }
-                    case '/' -> {
+                    case '/': {
                         forgetChar();
                         code = TokenCode.ShortComment;
                         image = "//" + scanShortComment();
+                        break;
                     }
-                    case '*' -> {
+                    case '*': {
                         forgetChar();
                         code = TokenCode.LongComment;
                         image = "/*" + scanLongComment();
                     }
-                    default -> {
+                    default: {
                         code = TokenCode.Slash;
                         image = "/";
+                        break;
                     }
                 }
                 break;
@@ -305,19 +308,22 @@ public class Scanner implements JavaParser.Lexer {
                 forgetChar();
                 ch = getChar();
                 switch (ch) {
-                    case '+' -> {
+                    case '+': {
                         forgetChar();
                         code = TokenCode.PlusPlus;
                         image = "++";
+                        break;
                     }
-                    case '=' -> {
+                    case '=': {
                         forgetChar();
                         code = TokenCode.PlusAssign;
                         image = "+=";
+                        break;
                     }
-                    default -> {
+                    default: {
                         code = TokenCode.Plus;
                         image = "+";
+                        break;
                     }
                 }
                 break;
@@ -325,24 +331,28 @@ public class Scanner implements JavaParser.Lexer {
                 forgetChar();
                 ch = getChar();
                 switch (ch) {
-                    case '=' -> {
+                    case '=': {
                         forgetChar();
                         code = TokenCode.MinusAssign;
                         image = "-=";
+                        break;
                     }
-                    case '-' -> {
+                    case '-': {
                         forgetChar();
                         code = TokenCode.MinusMinus;
                         image = "--";
+                        break;
                     }
-                    case '>' -> {
+                    case '>': {
                         forgetChar();
                         code = TokenCode.Arrow;
                         image = "->";
+                        break;
                     }
-                    default -> {
+                    default: {
                         code = TokenCode.Minus;
                         image = "-";
+                        break;
                     }
                 }
                 break;
@@ -369,7 +379,7 @@ public class Scanner implements JavaParser.Lexer {
                 forgetChar();
                 ch = getChar();
                 switch (ch) {
-                    case '<' -> {
+                    case '<': {
                         forgetChar();
                         ch = getChar();
                         if (ch == '=') {
@@ -380,15 +390,18 @@ public class Scanner implements JavaParser.Lexer {
                             code = TokenCode.LeftShift;
                             image = "<<";
                         }
+                        break;
                     }
-                    case '=' -> {
+                    case '=': {
                         forgetChar();
                         code = TokenCode.LessEqual;
                         image = "<=";
+                        break;
                     }
-                    default -> {
+                    default: {
                         code = TokenCode.Less;
                         image = "<";
+                        break;
                     }
                 }
                 break;
@@ -396,16 +409,17 @@ public class Scanner implements JavaParser.Lexer {
                 forgetChar();
                 ch = getChar();
                 switch (ch) {
-                    case '=' -> {
+                    case '=': {
                         forgetChar();
                         code = TokenCode.GreaterEqual;
                         image = ">=";
+                        break;
                     }
-                    case '>' -> {
+                    case '>': {
                         forgetChar();
                         ch = getChar();
                         switch (ch) {
-                            case '>' -> {
+                            case '>': {
                                 forgetChar();
                                 ch = getChar();
                                 if (ch == '=') {
@@ -416,21 +430,26 @@ public class Scanner implements JavaParser.Lexer {
                                     code = TokenCode.ArithmRightShift;
                                     image = ">>>";
                                 }
+                                break;
                             }
-                            case '=' -> {
+                            case '=': {
                                 forgetChar();
                                 code = TokenCode.RightShiftAssign;
                                 image = ">>=";
+                                break;
                             }
-                            default -> {
+                            default: {
                                 code = TokenCode.RightShift;
                                 image = ">>";
+                                break;
                             }
                         }
+                        break;
                     }
-                    default -> {
+                    default: {
                         code = TokenCode.Greater;
                         image = ">";
+                        break;
                     }
                 }
                 break;
@@ -439,19 +458,22 @@ public class Scanner implements JavaParser.Lexer {
                 forgetChar();
                 ch = getChar();
                 switch (ch) {
-                    case '|' -> {
+                    case '|': {
                         forgetChar();
                         code = TokenCode.DoubleVertical;
                         image = "||";
+                        break;
                     }
-                    case '=' -> {
+                    case '=': {
                         forgetChar();
                         code = TokenCode.VerticalAssign;
                         image = "|=";
+                        break;
                     }
-                    default -> {
+                    default: {
                         code = TokenCode.Vertical;
                         image = "|";
+                        break;
                     }
                 }
                 break;
@@ -460,19 +482,22 @@ public class Scanner implements JavaParser.Lexer {
                 forgetChar();
                 ch = getChar();
                 switch (ch) {
-                    case '&' -> {
+                    case '&': {
                         forgetChar();
                         code = TokenCode.DoubleAmpersand;
                         image = "&&";
+                        break;
                     }
-                    case '=' -> {
+                    case '=': {
                         forgetChar();
                         code = TokenCode.AmpersandAssign;
                         image = "&=";
+                        break;
                     }
-                    default -> {
+                    default: {
                         code = TokenCode.Ampersand;
                         image = "&";
+                        break;
                     }
                 }
                 break;
@@ -703,81 +728,79 @@ public class Scanner implements JavaParser.Lexer {
     }
 
     private TokenCode detectKeyword(String identifier) {
-        return switch (identifier) {
-            case "abstract" -> TokenCode.Abstract;
-            case "assert" -> TokenCode.Assert;
-            case "boolean" -> TokenCode.Boolean;
-            case "break" -> TokenCode.Break;
-            case "byte" -> TokenCode.Byte;
-            case "catch" -> TokenCode.Catch;
-            case "case" -> TokenCode.Case;
-            case "char" -> TokenCode.Char;
-            case "class" -> TokenCode.Class;
- //         case "const" -> TokenCode.Const;   // not actually used
-            case "continue" -> TokenCode.Continue;
-            case "default" -> TokenCode.Default;
-            case "do" -> TokenCode.Do;
-            case "double" -> TokenCode.Double;
-            case "else" -> TokenCode.Else;
-            case "enum" -> TokenCode.Enum;
-            case "extends" -> TokenCode.Extends;
-            case "final" -> TokenCode.Final;
-            case "finally" -> TokenCode.Finally;
-            case "float" -> TokenCode.Float;
-            case "for" -> TokenCode.For;
- //         case "goto" -> TokenCode.Goto; // not actually used
-            case "if" -> TokenCode.If;
-            case "implements" -> TokenCode.Implements;
-            case "import" -> TokenCode.Import;
-            case "instanceof" -> TokenCode.Instanceof;
-            case "int" -> TokenCode.Int;
-            case "interface" -> TokenCode.Interface;
-            case "long" -> TokenCode.Long;
-            case "native" -> TokenCode.Native;
-            case "new" -> TokenCode.New;
-            case "package" -> TokenCode.Package;
-            case "private" -> TokenCode.Private;
-            case "protected" -> TokenCode.Protected;
-            case "public" -> TokenCode.Public;
-            case "return" -> TokenCode.Return;
-            case "short" -> TokenCode.Short;
-            case "static" -> TokenCode.Static;
-            case "strictfp" -> TokenCode.Strictfp;
-            case "super" -> TokenCode.Super;
-            case "synchronized" -> TokenCode.Synchronized;
-            case "switch" -> TokenCode.Switch;
-            case "this" -> TokenCode.This;
-            case "throw" -> TokenCode.Throw;
-            case "throws" -> TokenCode.Throws;
-            case "transient" -> TokenCode.Transient;
-            case "try" -> TokenCode.Try;
-            case "void" -> TokenCode.Void;
-            case "volatile" -> TokenCode.Volatile;
-            case "while" -> TokenCode.While;
-            case "true" -> TokenCode.True;
-            case "false" -> TokenCode.False;
-            case "null" -> TokenCode.Null;
-            case "var" -> TokenCode.Var;
-            case "yield" -> TokenCode.Yield;
-            case "record" -> TokenCode.Record;
+        if (identifier.equals("abstract")) return TokenCode.Abstract;
+        if (identifier.equals("assert")) return TokenCode.Assert;
+        if (identifier.equals("boolean")) return TokenCode.Boolean;
+        if (identifier.equals("break")) return TokenCode.Break;
+        if (identifier.equals("byte")) return TokenCode.Byte;
+        if (identifier.equals("catch")) return TokenCode.Catch;
+        if (identifier.equals("case")) return TokenCode.Case;
+        if (identifier.equals("char")) return TokenCode.Char;
+        if (identifier.equals("class")) return TokenCode.Class;
+//         if (identifier.equals("const")) return TokenCode.Const;   // not actually used
+        if (identifier.equals("continue")) return TokenCode.Continue;
+        if (identifier.equals("default")) return TokenCode.Default;
+        if (identifier.equals("do")) return TokenCode.Do;
+        if (identifier.equals("double")) return TokenCode.Double;
+        if (identifier.equals("else")) return TokenCode.Else;
+        if (identifier.equals("enum")) return TokenCode.Enum;
+        if (identifier.equals("extends")) return TokenCode.Extends;
+        if (identifier.equals("final")) return TokenCode.Final;
+        if (identifier.equals("finally")) return TokenCode.Finally;
+        if (identifier.equals("float")) return TokenCode.Float;
+        if (identifier.equals("for")) return TokenCode.For;
+//         if (identifier.equals("goto")) return TokenCode.Goto; // not actually used
+        if (identifier.equals("if")) return TokenCode.If;
+        if (identifier.equals("implements")) return TokenCode.Implements;
+        if (identifier.equals("import")) return TokenCode.Import;
+        if (identifier.equals("instanceof")) return TokenCode.Instanceof;
+        if (identifier.equals("int")) return TokenCode.Int;
+        if (identifier.equals("interface")) return TokenCode.Interface;
+        if (identifier.equals("long")) return TokenCode.Long;
+        if (identifier.equals("native")) return TokenCode.Native;
+        if (identifier.equals("new")) return TokenCode.New;
+        if (identifier.equals("package")) return TokenCode.Package;
+        if (identifier.equals("private")) return TokenCode.Private;
+        if (identifier.equals("protected")) return TokenCode.Protected;
+        if (identifier.equals("public")) return TokenCode.Public;
+        if (identifier.equals("return")) return TokenCode.Return;
+        if (identifier.equals("short")) return TokenCode.Short;
+        if (identifier.equals("static")) return TokenCode.Static;
+        if (identifier.equals("strictfp")) return TokenCode.Strictfp;
+        if (identifier.equals("super")) return TokenCode.Super;
+        if (identifier.equals("synchronized")) return TokenCode.Synchronized;
+        if (identifier.equals("switch")) return TokenCode.Switch;
+        if (identifier.equals("this")) return TokenCode.This;
+        if (identifier.equals("throw")) return TokenCode.Throw;
+        if (identifier.equals("throws")) return TokenCode.Throws;
+        if (identifier.equals("transient")) return TokenCode.Transient;
+        if (identifier.equals("try")) return TokenCode.Try;
+        if (identifier.equals("void")) return TokenCode.Void;
+        if (identifier.equals("volatile")) return TokenCode.Volatile;
+        if (identifier.equals("while")) return TokenCode.While;
+        if (identifier.equals("true")) return TokenCode.True;
+        if (identifier.equals("false")) return TokenCode.False;
+        if (identifier.equals("null")) return TokenCode.Null;
+        if (identifier.equals("var")) return TokenCode.Var;
+        if (identifier.equals("yield")) return TokenCode.Yield;
+        if (identifier.equals("record")) return TokenCode.Record;
 
-            /*
-                    open,
-                    module,
-                    requires,
-                    transitive,
-                    exports,
-                    opens,
-                    to,
-                    uses,
-                    provides,
-                    with,
+        /*
+                open,
+                module,
+                requires,
+                transitive,
+                exports,
+                opens,
+                to,
+                uses,
+                provides,
+                with,
 
-                    Yield,
-                    Record,
-            */
+                Yield,
+                Record,
+        */
 
-            default -> TokenCode.Identifier;
-        };
+        return TokenCode.Identifier;
     }
 }

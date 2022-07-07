@@ -27,10 +27,9 @@ public class TypeArgument extends Entity
         signExtends = false;
         signSuper = false;
         switch (sign) {
-            case 1 -> signExtends = true;
-            case 2 -> signSuper = true;
-            default -> {
-            }
+            case 1: signExtends = true; break;
+            case 2: signSuper = true; break;
+            default: break;
         }
         this.annotations = anns;
 

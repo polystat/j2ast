@@ -2,7 +2,6 @@ package tree.Type;
 
 import tree.CompoundName;
 import tree.Entity;
-import tree.*;
 
 // UnannotatedType
 //       : ...

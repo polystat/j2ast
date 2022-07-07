@@ -1,6 +1,5 @@
 package tree.Declaration;
 
-import com.sun.source.tree.EmptyStatementTree;
 import lexer.Token;
 import tree.*;
 import tree.Modifiers;

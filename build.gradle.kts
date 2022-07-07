@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "org.polystat"
-version = "0.0.2"
+version = "0.0.3"
 
 
 val mvnUsername: String? by project
@@ -31,8 +31,8 @@ val latestGrammarMD5FilePath = "out/latestGrammarMD5"
 
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_15
-    targetCompatibility = JavaVersion.VERSION_15
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 
     withSourcesJar()
 }
